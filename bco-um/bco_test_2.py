@@ -161,5 +161,7 @@ if __name__ == '__main__':
                         default = 4,
                         help = 'memory length.')
     args = parser.parse_args()
-
-    run_experiment_two(args.T, args.d, args.rho, args.mem_length, args.iterations)
+    if type(args.mem_length) == int:
+        run_experiment_two(args.T, args.d, args.rho, [args.mem_length], args.iterations)
+    else:
+        run_experiment_two(args.T, args.d, args.rho, args.mem_length, args.iterations)
