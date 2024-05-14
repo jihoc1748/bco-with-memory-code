@@ -123,5 +123,7 @@ if __name__ == '__main__':
                         default = 25,
                         help = 'number of tests.')
     args = parser.parse_args()
-
-    run_experiment_one(args.T, args.d, args.rho, args.iterations)
+    if type(args.rho) == float:
+        run_experiment_one(args.T, args.d, [args.rho], args.iterations)
+    else:
+        run_experiment_one(args.T, args.d, args.rho, args.iterations)
