@@ -111,8 +111,8 @@ def fkm(file, tau, T):
 
 def main():
     # Obtaining the average loss values after running either the ogd or fkm algorithm
-    ogd_costs = ogd('ml-100k\\ml-100k\\u.data', 20, 100)
-    fkm_costs = fkm('ml-100k\\ml-100k\\u.data', 20, 100)
+    ogd_costs = ogd('ml-100k\\ml-100k\\u.data', 20, 10000)
+    fkm_costs = fkm('ml-100k\\ml-100k\\u.data', 20, 10000)
 
     plt.plot(ogd_costs,
              label = "OGD iterates",
