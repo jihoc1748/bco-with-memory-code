@@ -62,7 +62,9 @@ def ogd(file, tau, T):
         item = int(item)
         rating = int(rating)
         cost += pow((A[user][item] - rating), 2)
+        print("Round " + str(t))
         print(cost/t)
+        print("")
         running_average.append(cost/t)
         A_prime = A - eta * 2 * (A[user][item] - rating)
         A = projection(A_prime, tau)
@@ -78,6 +80,7 @@ def fkm(file, tau, T):
     running_average = []
     t = 0
     cost = 0
+    prev_decisions = []
     for line in data:
         if t > T:
             break
@@ -91,12 +94,16 @@ def fkm(file, tau, T):
         random_directions /= np.linalg.norm(random_directions, axis=0)
         random_directions = random_directions.T       
         y = decision + random_directions[0].reshape((943, 1682))
+        prev_decisions.insert(0, y)
+        round_cost = 0
+        for i in range(len(prev_decisions)):
+            round_cost += pow(prev_decisions[i][user][item] - rating, 2) * pow(0.5, i)
 
-        round_cost = pow(y[user][item] - rating, 2)
-
-        cost += round_cost
-        print(cost/t)
-        running_average.append(cost/t)
+        cost += (round_cost)
+        print("Round " + str(t))
+        print(cost/2/t)
+        print("")
+        running_average.append(cost/2/t)
         grad = d / delta * round_cost * random_directions[0]
 
         decision = projection(decision - (eta * grad).reshape((943, 1682)), tau)
@@ -104,8 +111,8 @@ def fkm(file, tau, T):
 
 def main():
     # Obtaining the average loss values after running either the ogd or fkm algorithm
-    ogd_costs = ogd('ml-100k\\ml-100k\\u.data', 20, 10000)
-    fkm_costs = fkm('ml-100k\\ml-100k\\u.data', 20, 10000)
+    ogd_costs = ogd('ml-100k\\ml-100k\\u.data', 20, 100)
+    fkm_costs = fkm('ml-100k\\ml-100k\\u.data', 20, 100)
 
     plt.plot(ogd_costs,
              label = "OGD iterates",
