@@ -16,10 +16,6 @@ def word_stream(file_path):
 def projection(A, tau):
     # This function takes a matrix A and projects it onto the space of matrices with
     # rank less than tau using the standard singular value decomposition method.
-    if np.isnan(np.min(A)):
-        print("uh oh")
-    if np.any(np.isinf( A)):
-        print("uh oh")
     u, s, v = np.linalg.svd(A)
 
     def soft_threshold(s, tau):
